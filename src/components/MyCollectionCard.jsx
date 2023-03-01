@@ -1,11 +1,11 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 export const MyCollectionCard = ({ collection }) => {
   const navigate = useNavigate();
@@ -17,18 +17,18 @@ export const MyCollectionCard = ({ collection }) => {
   return (
     <Card
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         width: 300,
         height: 300,
-        marginRight: '2%',
+        marginRight: "2%",
       }}
     >
       <CardMedia
-        sx={{ height: '30%' }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="collection cover"
+      // sx={{ height: '30%' }}
+      // image="/static/images/cards/contemplative-reptile.jpg"
+      // title="collection cover"
       />
       <CardContent>
         <Typography gutterBottom variant="h5">
