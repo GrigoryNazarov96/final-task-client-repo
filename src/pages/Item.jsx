@@ -1,22 +1,36 @@
-import { Box, Container, Typography, Button, Link, IconButton } from '@mui/material';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import React, { useEffect, useState, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Context } from '..';
-import MyComment from '../components/MyComment';
-import { fetchItem } from '../requests/itemRequests';
-import NewCommentDialog from '../components/NewCommentDialog';
-import { addLike, removeLike } from '../requests/likeRequests';
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Link,
+  IconButton,
+} from "@mui/material";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Context } from "..";
+import MyComment from "../components/MyComment";
+import { fetchItem } from "../requests/itemRequests";
+import NewCommentDialog from "../components/NewCommentDialog";
+import { addLike, removeLike } from "../requests/likeRequests";
+import UpdateItemDialog from "../components/UpdateItemDialog";
 
 const Item = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useContext(Context);
-  const itemId = location.pathname.split('/')[2];
+  const itemId = location.pathname.split("/")[2];
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [updateItemModalOpen, setUpdateItemModalOpen] = useState(false);
+  const [collection, setCollection] = useState({});
   const [isLiked, setIsLiked] = useState(false);
   const [item, setItem] = useState({});
+
+  const handleUpdateItemOpen = () => {
+    setUpdateItemModalOpen(true);
+  };
 
   const handleNewCommentOpen = () => {
     setCommentDialogOpen(true);
@@ -36,57 +50,81 @@ const Item = () => {
     fetchItem(itemId).then((data) => {
       setItem(data);
       setIsLiked(data.isLiked);
+      setCollection(data.collectionId);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Container sx={{ marginTop: '2%', marginBottom: '2%' }}>
+    <Container sx={{ marginTop: "2%", marginBottom: "2%" }}>
       <NewCommentDialog
         item={item}
         commentDialogOpen={commentDialogOpen}
         setCommentDialogOpen={setCommentDialogOpen}
       />
+      <UpdateItemDialog
+        updateItemModalOpen={updateItemModalOpen}
+        setUpdateItemModalOpen={setUpdateItemModalOpen}
+        item={item}
+        collection={collection}
+      />
       <Box
-        sx={{ display: 'flex', justifyContent: 'start', alignItems: 'center', marginBottom: '2%' }}
+        sx={{
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          marginBottom: "2%",
+        }}
       >
         <Typography variant="h4" fontWeight="bold">
           {item?.name}
         </Typography>
         {isLiked ? (
-          <IconButton sx={{ marginLeft: '2%' }} onClick={handleLikeRemove}>
+          <IconButton sx={{ marginLeft: "2%" }} onClick={handleLikeRemove}>
             <FavoriteOutlinedIcon />
           </IconButton>
         ) : (
-          <IconButton sx={{ marginLeft: '2%' }} onClick={handleLike}>
+          <IconButton sx={{ marginLeft: "2%" }} onClick={handleLike}>
             <FavoriteBorderOutlinedIcon />
           </IconButton>
         )}
+        {(user.user.id === item.owner?._id || user.user.role === "admin") && (
+          <Button
+            sx={{ marginLeft: "auto" }}
+            variant="outlined"
+            onClick={handleUpdateItemOpen}
+          >
+            Edit Item
+          </Button>
+        )}
       </Box>
-      <Box sx={{ marginTop: '2%' }}>
+      <Box sx={{ marginTop: "2%" }}>
         <Typography variant="h6">Owner: </Typography>
         <Typography variant="body1">
-          <Link sx={{ cursor: 'pointer' }} onClick={() => navigate(`/users/${item.owner?._id}`)}>
+          <Link
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(`/users/${item.owner?._id}`)}
+          >
             {item.owner?.name}
           </Link>
         </Typography>
       </Box>
-      <Box sx={{ marginTop: '2%' }}>
+      <Box sx={{ marginTop: "2%" }}>
         <Typography variant="h6">Collection: </Typography>
         <Typography variant="body1">
           <Link
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: "pointer" }}
             onClick={() => navigate(`/collections/${item.collectionId?._id}`)}
           >
             {item.collectionId?.name}
           </Link>
         </Typography>
       </Box>
-      <Box sx={{ marginTop: '2%' }}>
+      <Box sx={{ marginTop: "2%" }}>
         <Typography variant="h6">Description: </Typography>
         <Typography variant="body1">{item.description}</Typography>
       </Box>
-      <Box sx={{ marginTop: '2%' }}>
+      <Box sx={{ marginTop: "2%" }}>
         <Typography variant="h6">Tags: </Typography>
         {item.tags?.map((tag, i) => (
           <Typography key={i} variant="body1">
@@ -94,16 +132,26 @@ const Item = () => {
           </Typography>
         ))}
       </Box>
-      <Typography variant="h6" sx={{ marginTop: '2%' }}>
+      <Typography variant="h6" sx={{ marginTop: "2%" }}>
         Likes Count:
       </Typography>
       <Typography variant="body1">{item.likes}</Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ marginTop: '2%' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h6" sx={{ marginTop: "2%" }}>
           Comments:
         </Typography>
         {user.isAuth && user.user.id !== item.owner?._id && (
-          <Button sx={{ marginTop: '2%' }} variant="outlined" onClick={handleNewCommentOpen}>
+          <Button
+            sx={{ marginTop: "2%" }}
+            variant="outlined"
+            onClick={handleNewCommentOpen}
+          >
             Create Comment
           </Button>
         )}
@@ -113,14 +161,21 @@ const Item = () => {
           <MyComment
             key={review._id}
             review={review}
-            style={{ marginBottom: '1%', marginTop: '2%' }}
+            style={{ marginBottom: "1%", marginTop: "2%" }}
           />
         ))
       ) : (
         <Box
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '4%' }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "4%",
+          }}
         >
-          <Typography variant="h6">There are no comments for this item</Typography>
+          <Typography variant="h6">
+            There are no comments for this item
+          </Typography>
         </Box>
       )}
     </Container>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 import {
   Button,
   TextField,
@@ -7,24 +7,28 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material';
-import { createCollection } from '../requests/collectionRequests';
-import { Context } from '..';
+} from "@mui/material";
+import { createCollection } from "../requests/collectionRequests";
+import { Context } from "..";
 
-export default function NewCollectionDialog({ newCollectionModalOpen, setNewCollectionModalOpen }) {
+export default function NewCollectionDialog({
+  newCollectionModalOpen,
+  setNewCollectionModalOpen,
+  userOnPageId,
+}) {
   const { user } = useContext(Context);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [theme, setTheme] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [theme, setTheme] = useState("");
   const [stage, setStage] = useState(1);
   const [optionalFields, setOptionalFields] = useState({});
 
   const handleCloseViaCancel = () => {
     setNewCollectionModalOpen(false);
     setTimeout(() => setStage(1), 500);
-    setName('');
-    setDescription('');
-    setTheme('');
+    setName("");
+    setDescription("");
+    setTheme("");
     setOptionalFields({});
   };
 
@@ -38,12 +42,21 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
 
   const handleCreateNewCollection = async () => {
     try {
-      await createCollection(user.user.id, {
-        name,
-        description,
-        theme,
-        optionalFields,
-      });
+      if (user.user.role === "user") {
+        await createCollection(user.user.id, {
+          name,
+          description,
+          theme,
+          optionalFields,
+        });
+      } else {
+        await createCollection(userOnPageId, {
+          name,
+          description,
+          theme,
+          optionalFields,
+        });
+      }
       handleCloseOnCreate();
     } catch (e) {
       alert(e.response.data.message);
@@ -57,9 +70,9 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
           <DialogTitle>New Collection</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              In this window you can create a new collection. "Name", "Description" and "Theme" are
-              required. After that you can define extra fields for all future items in the
-              collection.
+              In this window you can create a new collection. "Name",
+              "Description" and "Theme" are required. After that you can define
+              extra fields for all future items in the collection.
             </DialogContentText>
             <TextField
               autoFocus
@@ -98,8 +111,8 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
           <DialogTitle>Define items custom fields</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You can define extra fields for all future items in the collection. Non of them are
-              required.
+              You can define extra fields for all future items in the
+              collection. Non of them are required.
             </DialogContentText>
           </DialogContent>
           {stage === 2 && (
@@ -113,7 +126,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalTextTitle1: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalTextTitle1: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -123,7 +139,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalTextTitle2: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalTextTitle2: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -133,7 +152,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalTextTitle3: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalTextTitle3: e.target.value,
+                    })
                   }
                 />
               </DialogContent>
@@ -150,7 +172,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalNumberTitle1: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalNumberTitle1: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -160,7 +185,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalNumberTitle2: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalNumberTitle2: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -170,7 +198,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalNumberTitle3: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalNumberTitle3: e.target.value,
+                    })
                   }
                 />
               </DialogContent>
@@ -187,7 +218,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalDateTitle1: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalDateTitle1: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -197,7 +231,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalDateTitle2: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalDateTitle2: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -207,7 +244,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalDateTitle3: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalDateTitle3: e.target.value,
+                    })
                   }
                 />
               </DialogContent>
@@ -224,7 +264,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalCheckboxTitle1: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalCheckboxTitle1: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -234,7 +277,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalCheckboxTitle2: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalCheckboxTitle2: e.target.value,
+                    })
                   }
                 />
                 <TextField
@@ -244,7 +290,10 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
                   fullWidth
                   variant="standard"
                   onChange={(e) =>
-                    setOptionalFields({ ...optionalFields, optionalCheckboxTitle3: e.target.value })
+                    setOptionalFields({
+                      ...optionalFields,
+                      optionalCheckboxTitle3: e.target.value,
+                    })
                   }
                 />
               </DialogContent>
@@ -257,7 +306,7 @@ export default function NewCollectionDialog({ newCollectionModalOpen, setNewColl
         {stage !== 5 ? (
           <Button
             variant="outlined"
-            disabled={!(name !== '' && description !== '' && theme !== '')}
+            disabled={!(name !== "" && description !== "" && theme !== "")}
             onClick={() => {
               setStage((prev) => prev + 1);
             }}

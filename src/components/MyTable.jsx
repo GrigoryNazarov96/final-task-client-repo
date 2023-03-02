@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { fetchItems, fetchItemsByCollection, fetchItemsByUser } from '../requests/itemRequests';
-import { useLocation } from 'react-router-dom';
-import Row from './Row';
+import React, { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import {
+  fetchItems,
+  fetchItemsByCollection,
+  fetchItemsByUser,
+} from "../requests/itemRequests";
+import { useLocation } from "react-router-dom";
+import Row from "./Row";
 
 export default function CollapsibleTable({ collection, user }) {
   const location = useLocation();
@@ -20,7 +24,7 @@ export default function CollapsibleTable({ collection, user }) {
       .filter(([key, value]) => value !== null)
       .map(([key, value]) => ({
         value,
-        key: collection.optionalFields[key.replace('Value', 'Title')],
+        key: collection.optionalFields[key.replace("Value", "Title")],
       }));
     return {
       ...item,
@@ -29,15 +33,21 @@ export default function CollapsibleTable({ collection, user }) {
   };
 
   useEffect(() => {
-    if (location.pathname.startsWith('/users')) {
-      fetchItemsByUser(user).then((data) => setItems(data));
+    if (location.pathname.startsWith("/users")) {
+      fetchItemsByUser(user)
+        .then((data) => setItems(data))
+        .catch((e) => alert(e));
     }
-    if (location.pathname.startsWith('/collections')) {
-      const collectionOnPageId = location.pathname.split('/')[2];
-      fetchItemsByCollection(collectionOnPageId).then((data) => setItems(data));
+    if (location.pathname.startsWith("/collections")) {
+      const collectionOnPageId = location.pathname.split("/")[2];
+      fetchItemsByCollection(collectionOnPageId)
+        .then((data) => setItems(data))
+        .catch((e) => alert(e));
     }
-    if (location.pathname === '/') {
-      fetchItems().then((data) => setItems(data));
+    if (location.pathname === "/") {
+      fetchItems()
+        .then((data) => setItems(data))
+        .catch((e) => alert(e.message));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -25,11 +25,6 @@ export const MyCollectionCard = ({ collection }) => {
         marginRight: "2%",
       }}
     >
-      <CardMedia
-      // sx={{ height: '30%' }}
-      // image="/static/images/cards/contemplative-reptile.jpg"
-      // title="collection cover"
-      />
       <CardContent>
         <Typography gutterBottom variant="h5">
           {collection.name}

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const fetchItems = async () => {
   const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/items`, {
@@ -8,9 +8,12 @@ export const fetchItems = async () => {
 };
 
 export const fetchItem = async (id) => {
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/items/${id}`, {
-    withCredentials: true,
-  });
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_API_URL}/items/${id}`,
+    {
+      withCredentials: true,
+    }
+  );
   return data.data.item;
 };
 
@@ -37,7 +40,7 @@ export const createItem = async (owner, collectionId, body) => {
       owner,
       collectionId,
     },
-    { withCredentials: true },
+    { withCredentials: true }
   );
   return data.data.item;
 };
@@ -51,9 +54,12 @@ export const deleteItems = async (items) => {
 };
 
 export const updateItem = async (id, body) => {
-  const { data } = await axios.patch(`${process.env.REACT_APP_API_URL}/items/${id}`, {
-    data: body,
-    withCredentials: true,
-  });
+  const { data } = await axios.patch(
+    `${process.env.REACT_APP_API_URL}/items/${id}`,
+    body,
+    {
+      withCredentials: true,
+    }
+  );
   return data.data.item;
 };
