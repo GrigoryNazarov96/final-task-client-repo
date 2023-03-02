@@ -6,8 +6,15 @@ import {
   Button,
   CardActions,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedCard = ({ title }) => {
+  const navigate = useNavigate();
+
+  const handleMostLikedCollectionsOpen = () => {
+    navigate("/featured");
+  };
+
   return (
     <Card sx={{ maxWidth: 150, marginRight: "2%" }}>
       <CardContent>
