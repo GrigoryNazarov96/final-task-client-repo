@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   TextField,
@@ -15,7 +15,6 @@ import {
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { updateItem } from "../requests/itemRequests";
-import { Context } from "..";
 
 export default function UpdateItemDialog({
   updateItemModalOpen,

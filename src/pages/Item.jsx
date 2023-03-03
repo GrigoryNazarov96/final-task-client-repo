@@ -79,14 +79,18 @@ const Item = () => {
         <Typography variant="h4" fontWeight="bold">
           {item?.name}
         </Typography>
-        {isLiked ? (
-          <IconButton sx={{ marginLeft: "2%" }} onClick={handleLikeRemove}>
-            <FavoriteOutlinedIcon />
-          </IconButton>
-        ) : (
-          <IconButton sx={{ marginLeft: "2%" }} onClick={handleLike}>
-            <FavoriteBorderOutlinedIcon />
-          </IconButton>
+        {user.isAuth && (
+          <Box>
+            {isLiked ? (
+              <IconButton sx={{ marginLeft: "2%" }} onClick={handleLikeRemove}>
+                <FavoriteOutlinedIcon />
+              </IconButton>
+            ) : (
+              <IconButton sx={{ marginLeft: "2%" }} onClick={handleLike}>
+                <FavoriteBorderOutlinedIcon />
+              </IconButton>
+            )}
+          </Box>
         )}
         {(user.user.id === item.owner?._id || user.user.role === "admin") && (
           <Button

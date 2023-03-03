@@ -6,6 +6,7 @@ import Collection from "./pages/Collection";
 import Admin from "./pages/Admin";
 import Error from "./pages/Error";
 import SearchResults from "./pages/SearchResults";
+import Featured from "./pages/Featured";
 
 export const router = [
   {
@@ -33,8 +34,12 @@ export const router = [
     element: <Auth />,
   },
   {
-    path: "/search",
+    path: "/search/:query",
     element: <SearchResults />,
+  },
+  {
+    path: "/featured/:title",
+    element: <Featured />,
   },
   {
     path: "/admin",

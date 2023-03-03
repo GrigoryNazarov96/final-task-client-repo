@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   TableRow,
   TableCell,
@@ -9,11 +9,11 @@ import {
   Box,
   Typography,
   Table,
-  Button,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+  Link,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 export default function Row({ item }) {
   const [open, setOpen] = React.useState(false);
@@ -21,16 +21,20 @@ export default function Row({ item }) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          <Button size="small" variant="text" onClick={() => navigate(`/items/${item._id}`)}>
+          <Link onClick={() => navigate(`/items/${item._id}`)}>
             {item.name}
-          </Button>
+          </Link>
         </TableCell>
         <TableCell align="left">{item._id}</TableCell>
         <TableCell align="left">{item.owner.name}</TableCell>

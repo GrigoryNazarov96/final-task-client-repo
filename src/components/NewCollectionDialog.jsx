@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Autocomplete,
 } from "@mui/material";
 import { createCollection } from "../requests/collectionRequests";
 import { Context } from "..";
@@ -94,15 +95,33 @@ export default function NewCollectionDialog({
               required
               onChange={(e) => setDescription(e.target.value)}
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="theme"
-              label="Theme"
-              fullWidth
-              variant="standard"
-              required
-              onChange={(e) => setTheme(e.target.value)}
+            <Autocomplete
+              style={{ width: "100%" }}
+              id="combo-box-demo"
+              options={[
+                "Alcohol",
+                "Books",
+                "Postmarks",
+                "Vintage",
+                "Cellphones",
+                "Medals",
+                "Models",
+                "Vinyls",
+                "Pins",
+              ]}
+              onChange={(newValue) => setTheme(newValue)}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  autoFocus
+                  fullWidth
+                  margin="dense"
+                  required
+                  variant="standard"
+                  {...params}
+                  label="Theme"
+                />
+              )}
             />
           </DialogContent>
         </>

@@ -12,7 +12,7 @@ const FeaturedCard = ({ title }) => {
   const navigate = useNavigate();
 
   const handleMostLikedCollectionsOpen = () => {
-    navigate("/featured");
+    navigate(`/featured/${title}`);
   };
 
   return (
@@ -26,7 +26,9 @@ const FeaturedCard = ({ title }) => {
         </Typography> */}
       </CardContent>
       <CardActions>
-        <Button size="small">Open</Button>
+        <Button size="small" onClick={handleMostLikedCollectionsOpen}>
+          Open
+        </Button>
       </CardActions>
     </Card>
   );
